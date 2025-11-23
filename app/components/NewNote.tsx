@@ -10,7 +10,7 @@ function NewNote() {
                 height={20}
                 alt="add"
             />
-            <span className='text-white w-18 max-[376px]:hidden flex select-none'>
+            <span className='text-white whitespace-nowrap max-[376px]:hidden flex select-none'>
                 New Note
             </span>
         </button>
