@@ -5,14 +5,14 @@ function SearchBar() {
     return (
         <div className="flex items-center gap-1 py-1 bg-gray px-4 rounded-md bg-gray-200 w-full max-w-[300px]">
             <Image
-                className="opacity-50"
+                className="opacity-50 pointer-events-none select-none"
                 src={"search.svg"}
                 width={20}
                 height={20}
                 alt="search"
             />
             <input
-                className="focus:outline-0 text-md py-1 w-full"
+                className="focus:outline-0 text-md py-1 w-full select-none"
                 type="text"
                 placeholder="Search notes..."
             />
