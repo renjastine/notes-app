@@ -10,7 +10,7 @@ function DropdownSort() {
             >
                 Newest First
                 <Image
-                    className="opacity-50 pointer-events-none select-none"
+                    className="opacity-50 pointer-events-none select-none w-auto h-auto"
                     src={"move-down.svg"}
                     width={10}
                     height={10}
