@@ -1,5 +1,5 @@
 export type NotesProps = {
   content: string,
-  tag?: string,
+  tags: string[],
   createdAt: string
 }

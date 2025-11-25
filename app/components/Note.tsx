@@ -1,6 +1,7 @@
 import Image from "next/image"
 import Tags from "./Tags"
 import { NotesProps } from "../types"
+import { useEffect } from "react";
 
 function toShortReadableDate(dateStr: string): string {
     const date = new Date(dateStr);
@@ -17,7 +18,8 @@ function toShortReadableDate(dateStr: string): string {
     return `${month}, ${day}, ${year}`;
 }
 
-function Note({ content, tag, createdAt }: NotesProps) {
+function Note({ content, tags, createdAt }: NotesProps) {
+
     return (
         <div className='bg-red-400 rounded-lg pl-2 shadow-sm'>
             <div className="bg-white w-full h-full min-h-[130px] p-5 rounded-r-lg">
@@ -35,7 +37,7 @@ function Note({ content, tag, createdAt }: NotesProps) {
                 <article className='text-black/50 max-h-15 overflow-y-hidden'>{content}</article>
                 <div className="mt-5 flex justify-between flex-wrap items-center gap-4">
                     <div className="flex flex-wrap gap-2">
-                        {tag && <Tags tag={tag} />}
+                        {tags.map(tag => <Tags tag={tag} />)}
                     </div>
                     <div className="text-sm text-black/50">
                         {toShortReadableDate(createdAt)}

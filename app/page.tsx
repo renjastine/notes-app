@@ -35,7 +35,7 @@ export default function Home() {
         </div>
         <div className="flex flex-col gap-4 max-h-[65vh] overflow-y-auto p-1">
           {
-            notes.map((note, i) => <Note key={i} content={note.content} tag={note.tag} createdAt={note.createdAt} />)
+            notes.map((note, i) => <Note key={i} content={note.content} tags={note.tags} createdAt={note.createdAt} />)
           }
           {/* <Note />
           <Note />
