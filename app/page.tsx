@@ -6,7 +6,7 @@ import FilterTags from "./components/FilterTags";
 import AddNote from "./components/NewNote";
 import Note from "./components/Note";
 import SearchBar from "./components/SearchBar";
-import { dummyData } from "./data";
+// import { dummyData } from "./data";
 import { NotesProps } from "./types";
 
 
@@ -16,7 +16,6 @@ export default function Home() {
   useEffect(() => {
     // localStorage.setItem("notes", JSON.stringify(dummyData))
     const stored = localStorage.getItem("notes")
-    // console.log(stored && stored?.length > 2 ? `May laman: ${stored}` : `Walang laman ${stored}`)
     setNotes(stored && stored?.length > 2 ? JSON.parse(stored) : []);
   }, [])
 
@@ -31,15 +30,12 @@ export default function Home() {
         </div>
         <div className="flex gap-2">
           Filter:
-          <FilterTags />
+          <FilterTags notes={notes} />
         </div>
         <div className="flex flex-col gap-4 max-h-[65vh] overflow-y-auto p-1">
           {
             notes.map((note, i) => <Note key={i} content={note.content} tags={note.tags} createdAt={note.createdAt} />)
           }
-          {/* <Note />
-          <Note />
-          <Note /> */}
         </div>
       </main>
     </div>
