@@ -13,6 +13,7 @@ import { NotesProps } from "./types";
 export default function Home() {
   const [notes, setNotes] = useState<NotesProps[]>([]);
   const [selectedTags, setSelectedTags] = useState<string[]>(["All"]);
+  const [selectSort, setSelectSort] = useState("new");
 
   function toggleTagSelection(tag: string) {
     setSelectedTags(prev => {
@@ -27,11 +28,19 @@ export default function Home() {
   }
 
   const processedData = useMemo(() => {
-    if (selectedTags.includes("All")) return notes;
-    return notes.filter(note =>
-      note.tags.some(tag => selectedTags.includes(tag))
-    );
-  }, [notes, selectedTags]);
+    let result =
+      selectedTags.includes("All")
+        ? [...notes]
+        : [...notes].filter(note =>
+          note.tags.some(tag => selectedTags.includes(tag))
+        );
+
+    return [...result].sort(
+      (a, b) => selectSort === "new" ?
+        b.createdAt.localeCompare(a.createdAt) :
+        a.createdAt.localeCompare(b.createdAt))
+
+  }, [notes, selectedTags, selectSort]);
 
   useEffect(() => {
     // localStorage.setItem("notes", JSON.stringify(dummyData))
@@ -47,7 +56,10 @@ export default function Home() {
         <div className="sticky top-0 flex flex-col gap-3 bg-[#f9fafb] py-5">
           <SearchBar />
           <div className="flex justify-between">
-            <DropdownSort />
+            <DropdownSort
+              selectSort={selectSort}
+              setSelectSort={setSelectSort}
+            />
             <AddNote />
           </div>
           <div className="flex gap-2">

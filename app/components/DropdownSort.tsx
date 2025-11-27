@@ -2,9 +2,13 @@ import Image from "next/image";
 import DropdownItem from "./DropdownItem";
 import { useEffect, useRef, useState } from "react";
 
-function DropdownSort() {
+type DropdownSortProps = {
+    selectSort: string,
+    setSelectSort: (val: string) => void
+}
+
+function DropdownSort({ selectSort, setSelectSort }: DropdownSortProps) {
     const [toggleDropdown, setToggleDropdown] = useState(false);
-    const [selectSort, setSelectSort] = useState("new");
     const dropdown = useRef<HTMLDivElement>(null)
 
     useEffect(() => {
