@@ -5,15 +5,9 @@ import { setDefaultAutoSelectFamily } from 'net'
 
 type FilterTagsProps = {
     notes: NotesProps[]
+    selectedTags: string[]
+    setSelectedTags: (val: string) => void;
 }
-
-const emptyData: NotesProps[] = [
-    {
-        content: "",
-        tags: [],
-        createdAt: ""
-    }
-]
 
 function getUniqueTags(prev: string[]): string[] {
     const insertAll = ["All"]
@@ -22,21 +16,8 @@ function getUniqueTags(prev: string[]): string[] {
     return []
 }
 
-function FilterTags({ notes }: FilterTagsProps) {
+function FilterTags({ notes, selectedTags, setSelectedTags }: FilterTagsProps) {
     const [allUnique, setAllUniqueTags] = useState<string[]>([]);
-    const [selectedTags, setSelectedTags] = useState<string[]>(["All"]);
-
-    function toggleTagSelection(tag: string) {
-        setSelectedTags(prev => {
-            if(tag === "All") return ["All"]
-
-            if (prev.includes(tag)) {
-                return prev.filter(t => t !== tag)
-            } else {
-                return [...prev.filter(t => t !== "All"), tag]
-            }
-        })
-    }
 
     useEffect(() => {
         const notesTags = notes.flatMap(note => note.tags)
@@ -51,7 +32,7 @@ function FilterTags({ notes }: FilterTagsProps) {
                     tag={tag}
                     clickable={true}
                     selectedTags={selectedTags}
-                    setSelectedTags={val => toggleTagSelection(val)}
+                    setSelectedTags={val => setSelectedTags(val)}
                 />)}
         </div>
     )
