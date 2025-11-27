@@ -27,7 +27,10 @@ function DropdownSort() {
                 className='font-light text-black/70 flex justify-between gap-15 px-4 py-2 w-[200px] rounded-sm bg-gray-200 mb-1 cursor-pointer select-none'
                 onClick={handleClick}
             >
-                Newest First
+                {selectSort === "new" ?
+                    "Newest First" :
+                    "Oldest First"}
+
                 <Image
                     className="opacity-50 pointer-events-none select-none w-auto h-auto"
                     src={"move-down.svg"}
