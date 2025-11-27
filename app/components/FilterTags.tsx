@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import Tags from './Tags'
 import { NotesProps } from '../types'
-import { setDefaultAutoSelectFamily } from 'net'
 
 type FilterTagsProps = {
     notes: NotesProps[]

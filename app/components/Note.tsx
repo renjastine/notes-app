@@ -17,8 +17,7 @@ function toShortReadableDate(dateStr: string): string {
     return `${month}, ${day}, ${year}`;
 }
 
-function Note({ content, tags, createdAt }: NotesProps) {
-
+function Note({ id, content, tags, createdAt }: NotesProps) {
     return (
         <div className='bg-red-400 rounded-lg pl-2 shadow-sm'>
             <div className="bg-white w-full h-full min-h-[130px] p-5 rounded-r-lg">

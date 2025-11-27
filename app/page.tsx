@@ -64,6 +64,7 @@ export default function Home() {
           {processedData.map((note, i) =>
             <Note
               key={i}
+              id={note.id}
               content={note.content}
               tags={note.tags}
               createdAt={note.createdAt}
