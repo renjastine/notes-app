@@ -31,7 +31,7 @@ function FilterTags({ notes, selectedTags, setSelectedTags }: FilterTagsProps) {
                     tag={tag}
                     clickable={true}
                     selectedTags={selectedTags}
-                    setSelectedTags={val => setSelectedTags(val)}
+                    setSelectedTags={setSelectedTags}
                 />)}
         </div>
     )

@@ -18,12 +18,15 @@ export default function Home() {
 
   function toggleTagSelection(tag: string) {
     setSelectedTags(prev => {
+      const withoutAll = prev.filter(t => t !== "All")
+      
       if (tag === "All") return ["All"]
 
       if (prev.includes(tag)) {
-        return prev.filter(t => t !== tag)
+        const removeChosenTag = withoutAll.filter(t => t !== tag)
+        return removeChosenTag.length > 0 ? removeChosenTag : ["All"]
       } else {
-        return [...prev.filter(t => t !== "All"), tag]
+        return [...withoutAll, tag]
       }
     })
   }

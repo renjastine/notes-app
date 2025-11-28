@@ -1,5 +1,3 @@
-import { useEffect, useState } from "react";
-
 type TagsProps = {
     tag: string;
     clickable?: boolean;
@@ -10,7 +8,7 @@ type TagsProps = {
 const filterStyle = "border font-bold"
 const noteStyle = "bg-gray-300"
 
-function Tags({ tag, clickable,selectedTags, setSelectedTags }: TagsProps) {
+function Tags({ tag, clickable, selectedTags, setSelectedTags }: TagsProps) {
     const handleClick = (e: React.MouseEvent<HTMLSpanElement>) => {
         setSelectedTags?.(tag)
     }
