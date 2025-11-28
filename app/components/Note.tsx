@@ -1,6 +1,7 @@
 import Image from "next/image"
 import Tags from "./Tags"
 import { NotesProps } from "../types"
+import DeleteConfirmation from "./DeleteConfirmation";
 
 function toShortReadableDate(dateStr: string): string {
     const date = new Date(dateStr);
@@ -17,14 +18,23 @@ function toShortReadableDate(dateStr: string): string {
     return `${month}, ${day}, ${year}`;
 }
 
-function Note({ id, content, tags, createdAt }: NotesProps) {
+function Note({ id, content, tags, createdAt, setIsDeleteOpen, setDeleteById }: NotesProps) {
+
+    const handleClickDelete = () => {
+        setIsDeleteOpen(true)
+        setDeleteById(id)
+    }
+
     return (
         <div className='bg-red-400 rounded-lg pl-2 shadow-sm'>
             <div className="bg-white w-full h-full min-h-[130px] p-5 rounded-r-lg">
                 <div className="flex justify-end mb-5">
-                    <div className="p-1.5 border border-red-400 rounded-sm">
+                    <div
+                        onClick={handleClickDelete}
+                        className="p-1.5 border border-red-400 rounded-sm cursor-pointer select-none"
+                    >
                         <Image
-                            className=" pointer-events-none select-none w-auto h-auto"
+                            className="pointer-events-none select-none w-auto h-auto"
                             src={"delete.svg"}
                             width={15}
                             height={15}

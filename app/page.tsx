@@ -6,20 +6,23 @@ import FilterTags from "./components/FilterTags";
 import AddNote from "./components/NewNote";
 import Note from "./components/Note";
 import SearchBar from "./components/SearchBar";
-// import { dummyData } from "./data";
-import { NotesProps } from "./types";
+import { dummyData } from "./data";
+import { Notes } from "./types";
+import DeleteConfirmation from "./components/DeleteConfirmation";
 
 
 export default function Home() {
-  const [notes, setNotes] = useState<NotesProps[]>([]);
+  const [notes, setNotes] = useState<Notes[]>([]);
   const [selectedTags, setSelectedTags] = useState<string[]>(["All"]);
   const [selectSort, setSelectSort] = useState("new");
+  const [isDeleteOpen, setIsDeleteOpen] = useState(false);
+  const [deleteById, setDeleteById] = useState<number>(0)
   const [search, setSearch] = useState("");
 
   function toggleTagSelection(tag: string) {
     setSelectedTags(prev => {
       const withoutAll = prev.filter(t => t !== "All")
-      
+
       if (tag === "All") return ["All"]
 
       if (prev.includes(tag)) {
@@ -89,9 +92,18 @@ export default function Home() {
               content={note.content}
               tags={note.tags}
               createdAt={note.createdAt}
+              setIsDeleteOpen={setIsDeleteOpen}
+              setDeleteById={setDeleteById}
             />)}
         </div>
       </main>
+      {isDeleteOpen &&
+        <DeleteConfirmation
+          deleteById={deleteById}
+          setIsDeleteOpen={setIsDeleteOpen}
+          notes={notes}
+          setNotes={setNotes}
+        />}
     </div>
   );
 }

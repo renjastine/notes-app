@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react'
 import Tags from './Tags'
-import { NotesProps } from '../types'
+import { Notes } from '../types'
 
 type FilterTagsProps = {
-    notes: NotesProps[]
+    notes: Notes[]
     selectedTags: string[]
     setSelectedTags: (val: string) => void;
 }
