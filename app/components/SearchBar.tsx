@@ -1,7 +1,15 @@
 import Image from "next/image";
-import React from 'react'
+import { ChangeEvent } from "react";
 
-function SearchBar() {
+type SearchBarProps = {
+    search: string
+    setSearch: (val: string) => void
+}
+
+function SearchBar({ search, setSearch }: SearchBarProps) {
+    const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+        setSearch(e.target.value)
+    }
     return (
         <div className="flex items-center gap-1 py-1 px-4 rounded-md bg-gray-200 w-full">
             <Image
@@ -13,6 +21,8 @@ function SearchBar() {
             />
             <input
                 className="focus:outline-0 text-md py-1 w-full select-none"
+                value={search}
+                onChange={handleChange}
                 type="text"
                 placeholder="Search notes..."
             />

@@ -14,6 +14,7 @@ export default function Home() {
   const [notes, setNotes] = useState<NotesProps[]>([]);
   const [selectedTags, setSelectedTags] = useState<string[]>(["All"]);
   const [selectSort, setSelectSort] = useState("new");
+  const [search, setSearch] = useState("");
 
   function toggleTagSelection(tag: string) {
     setSelectedTags(prev => {
@@ -35,12 +36,14 @@ export default function Home() {
           note.tags.some(tag => selectedTags.includes(tag))
         );
 
+    result = [...result].filter(note => note.content.includes(search))
+
     return [...result].sort(
       (a, b) => selectSort === "new" ?
         b.createdAt.localeCompare(a.createdAt) :
         a.createdAt.localeCompare(b.createdAt))
 
-  }, [notes, selectedTags, selectSort]);
+  }, [notes, selectedTags, selectSort, search]);
 
   useEffect(() => {
     // localStorage.setItem("notes", JSON.stringify(dummyData))
@@ -54,7 +57,10 @@ export default function Home() {
       <main className="p-3 flex flex-col gap-2 w-full max-w-[960px]">
         <header className="text-xl font-regular text-center py-5 select-none">Notes</header>
         <div className="sticky top-0 flex flex-col gap-3 bg-[#f9fafb] py-5">
-          <SearchBar />
+          <SearchBar
+            search={search}
+            setSearch={setSearch}
+          />
           <div className="flex justify-between">
             <DropdownSort
               selectSort={selectSort}
