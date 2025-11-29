@@ -52,7 +52,7 @@ export default function Home() {
   }, [notes, selectedTags, selectSort, search]);
 
   useEffect(() => {
-    // localStorage.setItem("notes", JSON.stringify(dummyData))
+    localStorage.setItem("notes", JSON.stringify(dummyData))
     const stored = localStorage.getItem("notes")
     const parsed = stored ? JSON.parse(stored) : [];
     setNotes(Array.isArray(parsed) ? parsed : []);
@@ -91,6 +91,7 @@ export default function Home() {
               id={note.id}
               content={note.content}
               tags={note.tags}
+              color={note.color}
               createdAt={note.createdAt}
               setIsDeleteOpen={setIsDeleteOpen}
               setDeleteById={setDeleteById}

@@ -1,7 +1,6 @@
 import Image from "next/image"
 import Tags from "./Tags"
 import { NotesProps } from "../types"
-import DeleteConfirmation from "./DeleteConfirmation";
 
 function toShortReadableDate(dateStr: string): string {
     const date = new Date(dateStr);
@@ -18,7 +17,27 @@ function toShortReadableDate(dateStr: string): string {
     return `${month}, ${day}, ${year}`;
 }
 
-function Note({ id, content, tags, createdAt, setIsDeleteOpen, setDeleteById }: NotesProps) {
+function Note({
+    id,
+    content,
+    tags,
+    createdAt,
+    color,
+    setIsDeleteOpen,
+    setDeleteById
+}: NotesProps) {
+
+    const colorMap: Record<string, string> = {
+        Red: "bg-red-500",
+        Orange: "bg-orange-500",
+        Yellow: "bg-yellow-500",
+        Green: "bg-green-500",
+        Cyan: "bg-cyan-500",
+        Indigo: "bg-blue-500",
+        Fuchsia: "bg-fuchsia-500",
+        Gray: "bg-gray-500",
+        Violet: "bg-violet-500"
+    };
 
     const handleClickDelete = () => {
         setIsDeleteOpen(true)
@@ -26,7 +45,12 @@ function Note({ id, content, tags, createdAt, setIsDeleteOpen, setDeleteById }: 
     }
 
     return (
-        <div className='bg-red-400 rounded-lg pl-2 shadow-sm'>
+        <div
+            className={`
+                rounded-lg pl-2 shadow-sm 
+                ${colorMap[color]}
+                `}
+        >
             <div className="bg-white w-full h-full min-h-[130px] p-5 rounded-r-lg">
                 <div className="flex justify-end mb-5">
                     <div

@@ -3,6 +3,7 @@ export type Notes = {
   content: string,
   tags: string[],
   createdAt: string,
+  color: string
 }
 
 export type NotesProps = Notes & {
