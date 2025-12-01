@@ -28,15 +28,15 @@ function Note({
 }: NotesProps) {
 
     const colorMap: Record<string, string> = {
-        Red: "bg-red-500",
-        Orange: "bg-orange-500",
-        Yellow: "bg-yellow-500",
-        Green: "bg-green-500",
-        Cyan: "bg-cyan-500",
-        Blue: "bg-blue-500",
-        Fuchsia: "bg-fuchsia-500",
-        Gray: "bg-gray-500",
-        Violet: "bg-violet-500"
+        red: "bg-red-500",
+        orange: "bg-orange-500",
+        yellow: "bg-yellow-500",
+        green: "bg-green-500",
+        cyan: "bg-cyan-500",
+        blue: "bg-blue-500",
+        fuchsia: "bg-fuchsia-500",
+        gray: "bg-gray-500",
+        violet: "bg-violet-500"
     };
 
     const handleClickDelete = () => {
