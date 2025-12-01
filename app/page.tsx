@@ -11,7 +11,6 @@ import { Notes } from "./types";
 import DeleteConfirmation from "./components/DeleteConfirmation";
 import NoteView from "./components/NoteView";
 
-
 export default function Home() {
   const [notes, setNotes] = useState<Notes[]>([]);
   const [selectedTags, setSelectedTags] = useState<string[]>(["All"]);
@@ -19,6 +18,7 @@ export default function Home() {
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
   const [deleteById, setDeleteById] = useState<number>(0)
   const [search, setSearch] = useState("");
+  const [isOpen, setIsOpen] = useState(false);
 
   function toggleTagSelection(tag: string) {
     setSelectedTags(prev => {
@@ -59,6 +59,10 @@ export default function Home() {
     setNotes(Array.isArray(parsed) ? parsed : []);
   }, [])
 
+  useEffect(() => {
+    localStorage.setItem("notes", JSON.stringify(notes))
+  }, [notes])
+
   return (
     <div className="flex justify-center">
       <main className="p-3 flex flex-col gap-2 w-full max-w-[960px]">
@@ -73,7 +77,9 @@ export default function Home() {
               selectSort={selectSort}
               setSelectSort={setSelectSort}
             />
-            <AddNote />
+            <AddNote
+              setIsOpen={setIsOpen}
+            />
           </div>
           <div className="flex gap-2">
             Filter:
@@ -99,6 +105,7 @@ export default function Home() {
             />)}
         </div>
       </main>
+
       {isDeleteOpen &&
         <DeleteConfirmation
           deleteById={deleteById}
@@ -106,9 +113,13 @@ export default function Home() {
           notes={notes}
           setNotes={setNotes}
         />}
-      <NoteView 
-        notes={notes}
-      />
+
+      {isOpen
+        && <NoteView
+          notes={notes}
+          setNotes={val => setNotes(prev => [...prev, val])}
+          setIsOpen={setIsOpen}
+        />}
     </div>
   );
 }

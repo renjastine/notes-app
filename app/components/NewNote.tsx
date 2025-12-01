@@ -1,8 +1,19 @@
 import Image from 'next/image'
 
-function NewNote() {
+type NewNoteProps = {
+    setIsOpen: (val: boolean) => void
+}
+
+function NewNote({ setIsOpen }: NewNoteProps) {
+    const handleClick = () => {
+        setIsOpen(true)
+    }
+
     return (
-        <button className="min-w-[130px] max-[385px]:min-w-fit flex items-center gap-2 px-4 py-2 rounded-md bg-black cursor-pointer">
+        <button
+            onClick={handleClick}
+            className="min-w-[130px] max-[385px]:min-w-fit flex items-center gap-2 px-4 py-2 rounded-md bg-black cursor-pointer"
+        >
             <Image
                 className="pointer-events-none select-none"
                 src="add-white.svg"

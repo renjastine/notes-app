@@ -1,22 +1,9 @@
 "use client";
 
-import { useEditor, EditorContent } from "@tiptap/react";
-import StarterKit from "@tiptap/starter-kit";
+import { Editor, EditorContent } from "@tiptap/react";
 import Menu from "./Menu";
 
-export default function TextEditor() {
-    const editor = useEditor({
-        extensions: [StarterKit],
-        editorProps: {
-            attributes: {
-                class: "border border-black/20 rounded-b-md min-h-[400px] p-4 focus:outline-none",
-            }
-        },
-        shouldRerenderOnTransaction: true,
-        immediatelyRender: false,
-    })
-
-    if (!editor) return null
+export default function TextEditor({ editor }: { editor: Editor }) {
 
     return (
         <div className="">

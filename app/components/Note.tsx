@@ -14,7 +14,7 @@ function toShortReadableDate(dateStr: string): string {
     const day = String(date.getDate()).padStart(2, "0");
     const year = date.getFullYear();
 
-    return `${month}, ${day}, ${year}`;
+    return `${month} ${day}, ${year}`;
 }
 
 function Note({
@@ -66,7 +66,7 @@ function Note({
                         />
                     </div>
                 </div>
-                <article className='text-black/50 max-h-15 overflow-y-hidden'>{content}</article>
+                <article className='text-black/50 max-h-15 overflow-y-hidden' dangerouslySetInnerHTML={{__html: content}}></article>
                 <div className="mt-5 flex justify-between flex-wrap items-center gap-4">
                     <div className="flex flex-wrap gap-2">
                         {tags.map((tag, i) => <Tags key={i} tag={tag} />)}

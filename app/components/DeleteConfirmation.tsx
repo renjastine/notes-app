@@ -16,7 +16,7 @@ function DeleteConfirmation({ deleteById, setIsDeleteOpen, notes, setNotes }: De
         const copyNotes = [...notes]
         const deleteNote = copyNotes.filter(note => note.id !== deleteById)
         setNotes(deleteNote)
-        localStorage.setItem("notes", JSON.stringify(deleteNote))
+        // localStorage.setItem("notes", JSON.stringify(deleteNote))
         setIsDeleteOpen(false)
     }
 
@@ -28,13 +28,13 @@ function DeleteConfirmation({ deleteById, setIsDeleteOpen, notes, setNotes }: De
                 <div className="flex flex-col gap-3 sm:flex-row sm:justify-end ">
                     <button
                         onClick={handleClickDelete}
-                        className="bg-red-400 text-white py-2 rounded-md sm:w-20"
+                        className="bg-red-400 text-white py-2 rounded-md sm:w-20 cursor-pointer"
                     >
                         Delete
                     </button>
                     <button
                         onClick={handleClickCancel}
-                        className="border rounded-md py-2 sm:w-20"
+                        className="border rounded-md py-2 sm:w-20 cursor-pointer"
                     >
                         Cancel
                     </button>
