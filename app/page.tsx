@@ -9,6 +9,7 @@ import SearchBar from "./components/SearchBar";
 import { dummyData } from "./data";
 import { Notes } from "./types";
 import DeleteConfirmation from "./components/DeleteConfirmation";
+import NoteView from "./components/NoteView";
 
 
 export default function Home() {
@@ -52,7 +53,7 @@ export default function Home() {
   }, [notes, selectedTags, selectSort, search]);
 
   useEffect(() => {
-    localStorage.setItem("notes", JSON.stringify(dummyData))
+    // localStorage.setItem("notes", JSON.stringify(dummyData))
     const stored = localStorage.getItem("notes")
     const parsed = stored ? JSON.parse(stored) : [];
     setNotes(Array.isArray(parsed) ? parsed : []);
@@ -105,6 +106,7 @@ export default function Home() {
           notes={notes}
           setNotes={setNotes}
         />}
+      <NoteView />
     </div>
   );
 }

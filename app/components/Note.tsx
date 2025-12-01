@@ -33,7 +33,7 @@ function Note({
         Yellow: "bg-yellow-500",
         Green: "bg-green-500",
         Cyan: "bg-cyan-500",
-        Indigo: "bg-blue-500",
+        Blue: "bg-blue-500",
         Fuchsia: "bg-fuchsia-500",
         Gray: "bg-gray-500",
         Violet: "bg-violet-500"
