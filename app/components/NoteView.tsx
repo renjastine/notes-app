@@ -47,6 +47,10 @@ function NoteView() {
                                     />)}
                     </div>
                 </form>
+                <div className="flex justify-end gap-2">
+                    <button className='border border-black/20 py-1 px-2 rounded-lg select-none cursor-pointer'>Cancel</button>
+                    <button className='border py-1 px-2 rounded-lg text-white bg-black hover:bg-black/80 select-none cursor-pointer'>Save Note</button>
+                </div>
             </div>
         </div>
     )
