@@ -106,7 +106,9 @@ export default function Home() {
           notes={notes}
           setNotes={setNotes}
         />}
-      <NoteView />
+      <NoteView 
+        notes={notes}
+      />
     </div>
   );
 }

@@ -1,17 +1,50 @@
-import { FormEvent, useState } from 'react'
+import { FormEvent, useEffect, useMemo, useRef, useState } from 'react'
 import Colors from './Colors'
 import TextEditor from './TextEditor'
 import InputTags from './InputTags'
+import { Notes } from '../types'
 
-function NoteView() {
-    const [inputTags, setInputTags] = useState<string[]>([])
+type NoteViewProps = {
+    notes: Notes[]
+}
+
+function NoteView({ notes }: NoteViewProps) {
+    const [note, setNote] = useState<Notes>({
+        id: 0,
+        content: "",
+        tags: [],
+        createdAt: "",
+        color: "red"
+    })
+
+    let lastID = useRef(0)
     const [tag, setTag] = useState<string>("")
+
+    useEffect(() => {
+        const today = new Date();
+        const year = today.getFullYear();
+        const month = String(today.getMonth() + 1).padStart(2, "0"); // months are 0-based
+        const day = String(today.getDate()).padStart(2, "0");
+
+        const formattedDate = `${year}-${month}-${day}`;
+        setNote(prev => ({ ...prev, createdAt: formattedDate }))
+    }, [])
+
+    useEffect(() => {
+        lastID.current = [...notes]
+            .map(note => note.id)
+            .sort((a, b) => b - a)[0] + 1
+        setNote(prev => ({ ...prev, id: lastID.current }))
+    }, [notes])
 
     const handleSubmit = (e: FormEvent) => {
         e.preventDefault()
 
         if (tag.trim() !== "") {
-            setInputTags(prev => [...new Set([...prev, tag])])
+            setNote(prev => ({
+                ...prev,
+                tags: [...new Set([...prev.tags, tag.toLowerCase()])]
+            }))
             setTag("")
         }
     }
@@ -36,14 +69,14 @@ function NoteView() {
                         type="text"
                     />
                     <div className="flex flex-wrap gap-2">
-                        {inputTags
-                            && inputTags.map(
+                        {note.tags
+                            && note.tags.map(
                                 (tag, i) =>
                                     <InputTags
                                         key={i}
                                         tag={tag}
-                                        inputTags={inputTags}
-                                        setInputTags={setInputTags}
+                                        inputTags={note.tags}
+                                        setInputTags={val => setNote(prev => ({ ...prev, tags: val }))}
                                     />)}
                     </div>
                 </form>
