@@ -19,6 +19,7 @@ export default function Home() {
   const [deleteById, setDeleteById] = useState<number>(0)
   const [search, setSearch] = useState("");
   const [isOpen, setIsOpen] = useState(false);
+  const [id, setId] = useState(0)
 
   function toggleTagSelection(tag: string) {
     setSelectedTags(prev => {
@@ -102,6 +103,8 @@ export default function Home() {
               createdAt={note.createdAt}
               setIsDeleteOpen={setIsDeleteOpen}
               setDeleteById={setDeleteById}
+              setIsOpen={setIsOpen}
+              setId={setId}
             />)}
         </div>
       </main>
@@ -116,9 +119,11 @@ export default function Home() {
 
       {isOpen
         && <NoteView
+          id={id}
           notes={notes}
           setNotes={val => setNotes(prev => [...prev, val])}
           setIsOpen={setIsOpen}
+          setId={setId}
         />}
     </div>
   );

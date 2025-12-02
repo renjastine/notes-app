@@ -9,4 +9,6 @@ export type Notes = {
 export type NotesProps = Notes & {
   setIsDeleteOpen: (val: boolean) => void
   setDeleteById: (val: number) => void
+  setIsOpen: (val: boolean) => void
+  setId: (val: number) => void
 }

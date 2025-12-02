@@ -24,7 +24,9 @@ function Note({
     createdAt,
     color,
     setIsDeleteOpen,
-    setDeleteById
+    setDeleteById,
+    setIsOpen,
+    setId
 }: NotesProps) {
 
     const colorMap: Record<string, string> = {
@@ -44,6 +46,11 @@ function Note({
         setDeleteById(id)
     }
 
+    const handleClick = () => {
+        setIsOpen(true)
+        setId(id)
+    }
+
     return (
         <div
             className={`
@@ -51,7 +58,10 @@ function Note({
                 ${colorMap[color]}
                 `}
         >
-            <div className="bg-white w-full h-full min-h-[130px] p-5 rounded-r-lg">
+            <div
+                onClick={handleClick}
+                className="bg-white w-full h-full min-h-[130px] p-5 rounded-r-lg"
+            >
                 <div className="flex justify-end mb-5">
                     <div
                         onClick={handleClickDelete}
@@ -66,7 +76,7 @@ function Note({
                         />
                     </div>
                 </div>
-                <article className='text-black/50 max-h-15 overflow-y-hidden' dangerouslySetInnerHTML={{__html: content}}></article>
+                <article className='text-black/50 max-h-15 overflow-y-hidden' dangerouslySetInnerHTML={{ __html: content }}></article>
                 <div className="mt-5 flex justify-between flex-wrap items-center gap-4">
                     <div className="flex flex-wrap gap-2">
                         {tags.map((tag, i) => <Tags key={i} tag={tag} />)}

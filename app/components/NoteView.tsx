@@ -7,12 +7,16 @@ import InputTags from './InputTags'
 import { Notes } from '../types'
 
 type NoteViewProps = {
+    id: number
     notes: Notes[]
     setNotes: (val: Notes) => void
     setIsOpen: (val: boolean) => void
+    setId: (val: number) => void
 }
 
-function NoteView({ notes, setNotes, setIsOpen }: NoteViewProps) {
+function NoteView({ id, notes, setNotes, setIsOpen, setId }: NoteViewProps) {
+    const onEdit = id !== 0
+
     const [tag, setTag] = useState<string>("")
     let lastID = useRef(0)
 
@@ -26,10 +30,9 @@ function NoteView({ notes, setNotes, setIsOpen }: NoteViewProps) {
 
     const editor = useEditor({
         extensions: [StarterKit],
-        content: `${note.content}`,
         editorProps: {
             attributes: {
-                class: "border border-black/20 rounded-b-md min-h-[400px] p-4 focus:outline-none",
+                class: "border border-black/20 rounded-b-md min-h-[300px] p-4 focus:outline-none",
             }
         },
         onUpdate: ({ editor }) => {
@@ -50,9 +53,14 @@ function NoteView({ notes, setNotes, setIsOpen }: NoteViewProps) {
         const seconds = String(today.getSeconds()).padStart(2, "0");
 
         const formattedDate = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
-        
+
         setNote(prev => ({ ...prev, createdAt: formattedDate }))
     }, [])
+
+    useEffect(() => {
+        const takeNote = [...notes].filter(note => note.id === id)[0]
+        setNote(takeNote)
+    }, [id])
 
     useEffect(() => {
         lastID.current = notes.length === 0 ? 1
@@ -61,6 +69,12 @@ function NoteView({ notes, setNotes, setIsOpen }: NoteViewProps) {
                 .sort((a, b) => b - a)[0] + 1
         setNote(prev => ({ ...prev, id: lastID.current }))
     }, [notes])
+
+    useEffect(() => {
+        if (editor) {
+            editor.commands.setContent(onEdit ? note.content : "");
+        }
+    }, [onEdit, note.content, editor]);
 
     const handleSubmit = (e: FormEvent) => {
         e.preventDefault()
@@ -75,12 +89,17 @@ function NoteView({ notes, setNotes, setIsOpen }: NoteViewProps) {
     }
 
     const handleSave = () => {
-        setNotes(note)
-        setIsOpen(false)
+        if (onEdit) {
+            console.log(id)
+        } else {
+            setNotes(note)
+            setIsOpen(false)
+        }
     }
 
     const handleCancel = () => {
         setIsOpen(false)
+        setId(0)
     }
 
     return (
@@ -107,14 +126,13 @@ function NoteView({ notes, setNotes, setIsOpen }: NoteViewProps) {
                     />
                     <div className="flex flex-wrap gap-2">
                         {note.tags
-                            && note.tags.map(
-                                (tag, i) =>
-                                    <InputTags
-                                        key={i}
-                                        tag={tag}
-                                        inputTags={note.tags}
-                                        setInputTags={val => setNote(prev => ({ ...prev, tags: val }))}
-                                    />)}
+                            && note.tags.map((tag, i) =>
+                                <InputTags
+                                    key={i}
+                                    tag={tag}
+                                    inputTags={note.tags}
+                                    setInputTags={val => setNote(prev => ({ ...prev, tags: val }))}
+                                />)}
                     </div>
                 </form>
                 <div className="flex justify-end gap-2">
