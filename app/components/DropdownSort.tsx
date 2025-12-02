@@ -1,49 +1,45 @@
 import Image from "next/image";
 import DropdownItem from "./DropdownItem";
 import { useEffect, useRef, useState } from "react";
+import { DropdownSortProps } from "../types";
 
-type DropdownSortProps = {
-    selectSort: string,
-    setSelectSort: (val: string) => void
-}
 
 function DropdownSort({ selectSort, setSelectSort }: DropdownSortProps) {
-    const [toggleDropdown, setToggleDropdown] = useState(false);
     const dropdown = useRef<HTMLDivElement>(null)
+    const [isOpen, setIsOpen] = useState(false);
 
     useEffect(() => {
-        document.addEventListener("click", handleClickOutside)
-        return () => document.removeEventListener("click", handleClickOutside);
+        const handleOutside = (e: MouseEvent) => {
+            if (!dropdown.current?.contains(e.target as Node))
+                setIsOpen(false)
+        }
+
+        document.addEventListener("click", handleOutside)
+        return () => document.removeEventListener("click", handleOutside);
     }, [])
 
-    const handleClickOutside = (e: MouseEvent) => {
-        if (!dropdown.current?.contains(e.target as Node)) setToggleDropdown(false)
-    }
+    const toggleDropdown = () => setIsOpen(prev => !prev);
 
-    const handleClick = () => {
-        setToggleDropdown(toggleDropdown ? false : true)
-    }
+    const getSortText = (sort: string) => (sort === "new" ? "Newest First" : "Oldest First");
 
     return (
         <div className="relative">
             <div
                 ref={dropdown}
+                onClick={toggleDropdown}
                 className='font-light text-black/70 flex justify-between gap-15 px-4 py-2 w-[200px] rounded-sm bg-gray-200 mb-1 cursor-pointer select-none'
-                onClick={handleClick}
             >
-                {selectSort === "new" ?
-                    "Newest First" :
-                    "Oldest First"}
-
+                <span>{getSortText(selectSort)}</span>
                 <Image
-                    className="opacity-50 pointer-events-none select-none w-auto h-auto"
-                    src={"move-down.svg"}
+                    src={"/move-down.svg"}
                     width={10}
                     height={10}
-                    alt="search"
+                    alt="Dropdown Arrow"
+                    className="opacity-50 pointer-events-none select-none w-auto h-auto"
                 />
             </div>
-            {toggleDropdown &&
+
+            {isOpen && (
                 <div className="bg-white w-[200px] rounded-md shadow-sm p-1 absolute z-1">
                     <DropdownItem
                         selectedSort={selectSort}
@@ -55,7 +51,8 @@ function DropdownSort({ selectSort, setSelectSort }: DropdownSortProps) {
                         setSelectedSort={setSelectSort}
                         itemName="old"
                     />
-                </div>}
+                </div>
+            )}
         </div>
     )
 }

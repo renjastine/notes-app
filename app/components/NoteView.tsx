@@ -4,15 +4,7 @@ import { useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import TextEditor from './TextEditor'
 import InputTags from './InputTags'
-import { Notes } from '../types'
-
-type NoteViewProps = {
-    id: number
-    notes: Notes[]
-    setNotes: (val: Notes) => void
-    setIsOpen: (val: boolean) => void
-    setId: (val: number) => void
-}
+import { Notes, NoteViewProps } from '../types'
 
 function NoteView({ id, notes, setNotes, setIsOpen, setId }: NoteViewProps) {
     const onEdit = id !== 0
@@ -140,14 +132,16 @@ function NoteView({ id, notes, setNotes, setIsOpen, setId }: NoteViewProps) {
                         type="text"
                     />
                     <div className="flex flex-wrap gap-2">
-                        {note.tags
-                            && note.tags.map((tag, i) =>
+                        {note.tags && (
+                            note.tags.map((tag, i) =>
                                 <InputTags
                                     key={i}
                                     tag={tag}
                                     inputTags={note.tags}
                                     setInputTags={val => setNote(prev => ({ ...prev, tags: val }))}
-                                />)}
+                                />
+                            ))
+                        }
                     </div>
                 </form>
                 <div className="flex justify-end gap-2">

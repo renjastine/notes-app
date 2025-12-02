@@ -6,7 +6,6 @@ import FilterTags from "./components/FilterTags";
 import AddNote from "./components/NewNote";
 import Note from "./components/Note";
 import SearchBar from "./components/SearchBar";
-import { dummyData } from "./data";
 import { Notes } from "./types";
 import DeleteConfirmation from "./components/DeleteConfirmation";
 import NoteView from "./components/NoteView";
@@ -15,51 +14,59 @@ export default function Home() {
   const [notes, setNotes] = useState<Notes[]>([]);
   const [selectedTags, setSelectedTags] = useState<string[]>(["All"]);
   const [selectSort, setSelectSort] = useState("new");
+  const [search, setSearch] = useState("");
+
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
   const [deleteById, setDeleteById] = useState<number>(0)
-  const [search, setSearch] = useState("");
+
   const [isOpen, setIsOpen] = useState(false);
   const [id, setId] = useState(0)
 
+  // ---------- Tag Selection ----------
   function toggleTagSelection(tag: string) {
     setSelectedTags(prev => {
-      const withoutAll = prev.filter(t => t !== "All")
+      if (tag === "All") return ["All"];
 
-      if (tag === "All") return ["All"]
-
-      if (prev.includes(tag)) {
-        const removeChosenTag = withoutAll.filter(t => t !== tag)
-        return removeChosenTag.length > 0 ? removeChosenTag : ["All"]
-      } else {
-        return [...withoutAll, tag]
-      }
-    })
+      const list = prev.filter(t => t !== "All");
+      return prev.includes(tag)
+        ? list.length > 1
+          ? list.filter(t => t !== tag)
+          : ["All"]
+        : [...list, tag];
+    });
   }
 
+  // ---------- Filter + Search + Sort ----------
   const processedData = useMemo(() => {
-    let result =
-      selectedTags.includes("All")
-        ? [...notes]
-        : [...notes].filter(note =>
-          note.tags.some(tag => selectedTags.includes(tag))
-        );
+    let result = selectedTags.includes("All")
+      ? notes
+      : notes.filter(note =>
+        note.tags.some(tag => selectedTags.includes(tag))
+      );
 
-    result = [...result].filter(note => note.content.toLowerCase().includes(search.toLowerCase()))
+    if (search.trim() !== "") {
+      const term = search.toLowerCase();
+      result = result.filter(note =>
+        note.content.toLowerCase().includes(term)
+      );
+    }
 
-    return [...result].sort(
-      (a, b) => selectSort === "new" ?
-        b.createdAt.localeCompare(a.createdAt) :
-        a.createdAt.localeCompare(b.createdAt))
+    return result.sort((a, b) =>
+      selectSort === "new"
+        ? b.createdAt.localeCompare(a.createdAt)
+        : a.createdAt.localeCompare(b.createdAt)
+    );
 
   }, [notes, selectedTags, selectSort, search]);
 
+  // ---------- Load Notes ----------
   useEffect(() => {
-    // localStorage.setItem("notes", JSON.stringify(dummyData))
     const stored = localStorage.getItem("notes")
     const parsed = stored ? JSON.parse(stored) : [];
     setNotes(Array.isArray(parsed) ? parsed : []);
   }, [])
 
+  // ---------- Save Notes ----------
   useEffect(() => {
     localStorage.setItem("notes", JSON.stringify(notes))
   }, [notes])
@@ -67,21 +74,17 @@ export default function Home() {
   return (
     <div className="flex justify-center">
       <main className="p-3 flex flex-col gap-2 w-full max-w-[960px]">
-        <header className="text-xl font-regular text-center py-5 select-none">Notes</header>
+        <header className="text-xl text-center py-5 select-none">Notes</header>
+
+        {/* Sticky Bar */}
         <div className="sticky top-0 flex flex-col gap-3 bg-[#f9fafb] py-5">
-          <SearchBar
-            search={search}
-            setSearch={setSearch}
-          />
+          <SearchBar search={search} setSearch={setSearch} />
+
           <div className="flex justify-between">
-            <DropdownSort
-              selectSort={selectSort}
-              setSelectSort={setSelectSort}
-            />
-            <AddNote
-              setIsOpen={setIsOpen}
-            />
+            <DropdownSort selectSort={selectSort} setSelectSort={setSelectSort} />
+            <AddNote setIsOpen={setIsOpen} />
           </div>
+
           <div className="flex gap-2">
             Filter:
             <FilterTags
@@ -92,6 +95,7 @@ export default function Home() {
           </div>
         </div>
 
+        {/* Note List */}
         <div className="flex flex-col gap-4  overflow-y-auto p-1">
           {processedData.map((note, i) =>
             <Note
@@ -109,6 +113,7 @@ export default function Home() {
         </div>
       </main>
 
+      {/* Delete Confirmation */}
       {isDeleteOpen &&
         <DeleteConfirmation
           deleteById={deleteById}
@@ -117,6 +122,7 @@ export default function Home() {
           setNotes={setNotes}
         />}
 
+      {/* View/Edit/Add */}
       {isOpen
         && <NoteView
           id={id}

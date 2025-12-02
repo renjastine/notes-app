@@ -1,28 +1,17 @@
-import React from 'react'
-
-type InputTagsProps = {
-    tag: string
-    inputTags: string[]
-    setInputTags: (val: string[]) => void
-}
+import { InputTagsProps } from "../types"
 
 function InputTags({ tag, inputTags, setInputTags }: InputTagsProps) {
-    const handleClick = () => {
-        const removeTag = [...inputTags].filter(t => t !== tag)
-        setInputTags(removeTag)
-    }
+    const handleRemove = () => setInputTags(inputTags.filter(t => t !== tag))
 
     return (
         <div>
-            <span
-                className='flex gap-1 bg-gray-300 text-xs font-semibold px-2 py-1 rounded-xl w-fit'
-            >
+            <span className='flex items-center gap-1 bg-gray-300 text-xs font-semibold px-2 py-1 rounded-xl w-fit'>
                 {tag}
                 <img
-                    onClick={handleClick}
+                    src="/x-close.svg"
+                    alt="remove tag"
+                    onClick={handleRemove}
                     className='w-3 cursor-pointer select-none'
-                    src="x-close.svg"
-                    alt="close"
                 />
             </span>
         </div>

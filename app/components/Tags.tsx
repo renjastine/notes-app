@@ -1,9 +1,4 @@
-type TagsProps = {
-    tag: string;
-    clickable?: boolean;
-    selectedTags?: string[];
-    setSelectedTags?: (val: string) => void;
-}
+import { TagsProps } from "../types"
 
 const filterStyle = "border font-bold"
 const noteStyle = "bg-gray-300"
@@ -19,8 +14,7 @@ function Tags({ tag, clickable, selectedTags, setSelectedTags }: TagsProps) {
         <span
             id={tag}
             onClick={e => handleClick(e)}
-            className={`
-                 text-black/70 text-sm px-3 pt-1.5 pb-1 rounded-xl h-6 flex justify-center items-center select-none 
+            className={`text-black/70 text-sm px-3 pt-1.5 pb-1 rounded-xl h-6 flex justify-center items-center select-none 
                 ${clickable ? "cursor-pointer " + filterStyle : "pointer-events-none " + noteStyle}
                 ${isSelected ? "bg-black text-white" : ""}
                 `}

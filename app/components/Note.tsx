@@ -53,12 +53,7 @@ function Note({
     }
 
     return (
-        <div
-            className={`
-                rounded-lg pl-2 shadow-sm 
-                ${colorMap[color]}
-                `}
-        >
+        <div className={`rounded-lg pl-2 shadow-sm ${colorMap[color]}`}>
             <div
                 onClick={handleClick}
                 className="bg-white w-full h-full min-h-[130px] p-5 rounded-r-lg"
@@ -69,15 +64,18 @@ function Note({
                         className="p-1.5 border border-red-400 rounded-sm cursor-pointer select-none"
                     >
                         <Image
-                            className="pointer-events-none select-none w-auto h-auto"
-                            src={"delete.svg"}
+                            src={"/delete.svg"}
                             width={15}
                             height={15}
                             alt="delete"
+                            className="pointer-events-none select-none w-auto h-auto"
                         />
                     </div>
                 </div>
-                <article className='text-black/50 max-h-15 overflow-y-hidden' dangerouslySetInnerHTML={{ __html: content }}></article>
+                <article
+                    className='text-black/50 max-h-15 overflow-y-hidden'
+                    dangerouslySetInnerHTML={{ __html: content }}
+                />
                 <div className="mt-5 flex justify-between flex-wrap items-center gap-4">
                     <div className="flex flex-wrap gap-2">
                         {tags.map((tag, i) => <Tags key={i} tag={tag} />)}

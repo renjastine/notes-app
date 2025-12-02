@@ -1,25 +1,22 @@
+import { ColorProps } from '../types'
 import ColorButton from './ColorButton'
 
-type ColorProps = {
-    selectedColor: string
-    setSelectedColor: (val: string) => void
-}
+const COLORS = ["red", "orange", "yellow", "green", "cyan", "blue", "fuchsia", "gray", "violet"]
 
 function Colors({ selectedColor, setSelectedColor }: ColorProps) {
-    const colors = ["red", "orange", "yellow", "green", "cyan", "blue", "fuchsia", "gray", "violet"]
 
     return (
-        <div className="">
-            <h1 className='text-md'>Colors</h1>
+        <div>
+            <h1 className='text-md mb-2'>Colors</h1>
             <div className="flex flex-wrap gap-2">
-                {colors.map((c, i) =>
+                {COLORS.map((color) => (
                     <ColorButton
-                        key={i}
-                        color={c}
+                        key={color}
+                        color={color}
                         selectedColor={selectedColor}
                         setSelectedColor={setSelectedColor}
-                    />)}
-
+                    />
+                ))}
             </div>
         </div>
     )

@@ -1,12 +1,12 @@
 "use client";
 
-import { Editor, EditorContent } from "@tiptap/react";
+import { EditorContent } from "@tiptap/react";
 import Menu from "./Menu";
+import { MenuProps } from "../types";
 
-export default function TextEditor({ editor }: { editor: Editor }) {
-
+export default function TextEditor({ editor }: MenuProps) {
     return (
-        <div className="">
+        <div>
             <Menu editor={editor} />
             <EditorContent editor={editor} />
         </div>

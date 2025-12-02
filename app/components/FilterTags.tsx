@@ -1,38 +1,31 @@
 import { useEffect, useState } from 'react'
 import Tags from './Tags'
-import { Notes } from '../types'
+import { FilterTagsProps } from '../types'
 
-type FilterTagsProps = {
-    notes: Notes[]
-    selectedTags: string[]
-    setSelectedTags: (val: string) => void;
-}
-
-function getUniqueTags(prev: string[]): string[] {
-    const insertAll = ["All"]
-    if (prev.length > 0) return [...new Set([...insertAll, ...prev])]
-
-    return []
+function getUniqueTags(tags: string[]): string[] {
+    const defaultTag = ["All"]
+    return tags.length ? [...new Set([...defaultTag, ...tags])] : []
 }
 
 function FilterTags({ notes, selectedTags, setSelectedTags }: FilterTagsProps) {
-    const [allUnique, setAllUniqueTags] = useState<string[]>([]);
+    const [uniqueTags, setUniqueTags] = useState<string[]>([]);
 
     useEffect(() => {
-        const notesTags = notes.flatMap(note => note.tags)
-        setAllUniqueTags(getUniqueTags(notesTags))
+        const allTags = notes.flatMap(note => note.tags)
+        setUniqueTags(getUniqueTags(allTags))
     }, [notes])
 
     return (
         <div className='flex flex-wrap gap-1'>
-            {allUnique.map(tag =>
+            {uniqueTags.map(tag => (
                 <Tags
                     key={tag}
                     tag={tag}
-                    clickable={true}
+                    clickable
                     selectedTags={selectedTags}
                     setSelectedTags={setSelectedTags}
-                />)}
+                />
+            ))}
         </div>
     )
 }
