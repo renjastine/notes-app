@@ -1,6 +1,6 @@
 import { FormEvent, useEffect, useMemo, useRef, useState } from 'react'
 import Colors from './Colors'
-import { Editor, useEditor } from "@tiptap/react";
+import { useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import TextEditor from './TextEditor'
 import InputTags from './InputTags'
@@ -58,7 +58,7 @@ function NoteView({ id, notes, setNotes, setIsOpen, setId }: NoteViewProps) {
     }, [])
 
     useEffect(() => {
-        const takeNote = [...notes].filter(note => note.id === id)[0]
+        const [takeNote] = [...notes].filter(note => note.id === id)
         setNote(takeNote)
     }, [id])
 
@@ -74,7 +74,7 @@ function NoteView({ id, notes, setNotes, setIsOpen, setId }: NoteViewProps) {
         if (editor) {
             editor.commands.setContent(onEdit ? note.content : "");
         }
-    }, [onEdit, note.content, editor]);
+    }, [onEdit, editor]);
 
     const handleSubmit = (e: FormEvent) => {
         e.preventDefault()
@@ -90,10 +90,25 @@ function NoteView({ id, notes, setNotes, setIsOpen, setId }: NoteViewProps) {
 
     const handleSave = () => {
         if (onEdit) {
-            console.log(id)
+            editNote()
         } else {
             setNotes(note)
             setIsOpen(false)
+        }
+    }
+
+    const editNote = () => {
+        const index = notes.findIndex(n => n.id === id)
+        if (id !== -1) {
+            const [removed] = notes.splice(index, 1)
+            setNotes({
+                ...removed,
+                content: note.content,
+                tags: note.tags,
+                color: note.color,
+            })
+            setIsOpen(false)
+            setId(0)
         }
     }
 
