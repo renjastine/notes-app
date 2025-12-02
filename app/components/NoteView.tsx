@@ -120,7 +120,7 @@ function NoteView({ id, notes, setNotes, setIsOpen, setId }: NoteViewProps) {
     return (
         <div className='fixed top-0 left-0 w-full h-full bg-black/50 flex justify-center py-5'>
             <div className="bg-white max-w-[700px] w-[90%] max-h-full overflow-y-auto rounded-md shadow-sm py-5 px-4 flex flex-col gap-5">
-                <h1 className='text-xl'>View Note</h1>
+                <h1 className='text-xl'>{onEdit ? "View Note" : "Add Note"}</h1>
                 <Colors
                     selectedColor={note.color}
                     setSelectedColor={val => setNote(prev => ({ ...prev, color: val }))}
