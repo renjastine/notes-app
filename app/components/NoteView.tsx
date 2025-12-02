@@ -59,7 +59,7 @@ function NoteView({ id, notes, setNotes, setIsOpen, setId }: NoteViewProps) {
 
     useEffect(() => {
         const [takeNote] = [...notes].filter(note => note.id === id)
-        setNote(takeNote)
+        if (onEdit) setNote(takeNote)
     }, [id])
 
     useEffect(() => {
@@ -82,7 +82,7 @@ function NoteView({ id, notes, setNotes, setIsOpen, setId }: NoteViewProps) {
         if (tag.trim() !== "") {
             setNote(prev => ({
                 ...prev,
-                tags: [...new Set([...prev.tags, tag.toLowerCase()])]
+                tags: note.tags ? [...new Set([...prev.tags, tag.toLowerCase()])] : [tag.toLowerCase()]
             }))
             setTag("")
         }

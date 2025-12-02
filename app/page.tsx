@@ -44,7 +44,7 @@ export default function Home() {
           note.tags.some(tag => selectedTags.includes(tag))
         );
 
-    result = [...result].filter(note => note.content.includes(search))
+    result = [...result].filter(note => note.content.toLowerCase().includes(search.toLowerCase()))
 
     return [...result].sort(
       (a, b) => selectSort === "new" ?
