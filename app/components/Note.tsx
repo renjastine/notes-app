@@ -41,7 +41,8 @@ function Note({
         violet: "bg-violet-500"
     };
 
-    const handleClickDelete = () => {
+    const handleClickDelete = (e: React.MouseEvent) => {
+        e.stopPropagation()
         setIsDeleteOpen(true)
         setDeleteById(id)
     }
