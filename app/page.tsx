@@ -22,6 +22,10 @@ export default function Home() {
   const [isOpen, setIsOpen] = useState(false);
   const [id, setId] = useState(0)
 
+  const [isTagEmpty, setIsTagEmpty] = useState(false)
+  const [isNotesEmpty, setIsNotesEmpty] = useState(false)
+
+
   // ---------- Tag Selection ----------
   function toggleTagSelection(tag: string) {
     setSelectedTags(prev => {
@@ -68,9 +72,19 @@ export default function Home() {
 
   // ---------- Save Notes ----------
   useEffect(() => {
-    localStorage.setItem("notes", JSON.stringify(notes))
+    localStorage.setItem("notes", JSON.stringify(notes));
+    setIsTagEmpty(notes.flatMap(note => note.tags).length === 0);
+    setIsNotesEmpty(notes.map(note => note.content).length === 0)
   }, [notes])
 
+  // No Notes Yet
+  const OnEmptyNotes = () => {
+    return (
+      <div className="text-center text-black/50">
+        <p>Create your first note</p>
+      </div>
+    )
+  }
   return (
     <div className="flex justify-center">
       <main className="p-3 flex flex-col gap-2 w-full max-w-[960px]">
@@ -86,7 +100,7 @@ export default function Home() {
           </div>
 
           <div className="flex gap-2">
-            Filter:
+            {!isTagEmpty && <span> Filter: </span>}
             <FilterTags
               notes={notes}
               selectedTags={selectedTags}
@@ -97,19 +111,22 @@ export default function Home() {
 
         {/* Note List */}
         <div className="flex flex-col gap-4  overflow-y-auto p-1">
-          {processedData.map((note, i) =>
-            <Note
-              key={i}
-              id={note.id}
-              content={note.content}
-              tags={note.tags}
-              color={note.color}
-              createdAt={note.createdAt}
-              setIsDeleteOpen={setIsDeleteOpen}
-              setDeleteById={setDeleteById}
-              setIsOpen={setIsOpen}
-              setId={setId}
-            />)}
+          {isNotesEmpty
+            ? OnEmptyNotes()
+            : processedData.map((note, i) =>
+              <Note
+                key={i}
+                id={note.id}
+                content={note.content}
+                tags={note.tags}
+                color={note.color}
+                createdAt={note.createdAt}
+                setIsDeleteOpen={setIsDeleteOpen}
+                setDeleteById={setDeleteById}
+                setIsOpen={setIsOpen}
+                setId={setId}
+              />
+            )}
         </div>
       </main>
 
